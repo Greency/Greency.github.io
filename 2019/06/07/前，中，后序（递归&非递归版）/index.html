@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=0.5"><link rel="stylesheet" href="/css/post.css"><link rel="icon" href="/img/favicon.png"><title>前，中，后序（递归&amp;非递归版）</title><meta name="generator" content="Hexo 4.2.1"></head><body>　　<div class="inner"><h2>前，中，后序（递归&amp;非递归版）</h2><h4 id="1-前-中-后序的定义"><a href="#1-前-中-后序的定义" class="headerlink" title="1. 前/中/后序的定义"></a>1. 前/中/后序的定义</h4><ol>
+<li>前序：根节点    –&gt;    左子树    –&gt;    右子树</li>
+<li>中序：左子树    –&gt;    根节点    —&gt;    右子树</li>
+<li>后序：左子树    —&gt;   右子树    —&gt;    根节点</li>
+</ol>
+<a id="more"></a>
+
+
+
+<h4 id="2-算法如下"><a href="#2-算法如下" class="headerlink" title="2. 算法如下"></a>2. 算法如下</h4><ol>
+<li><p>前序</p>
+<blockquote>
+<p>递归版</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionPreOrderTraversel</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(root)</span><br><span class="line">        recursionPreOrderTraversel(root.left)</span><br><span class="line">        recursionPreOrderTraversel(root.right)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>非递归版</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">preOrderTraversel</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result = []</span><br><span class="line">    <span class="keyword">let</span> stack = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (root || stack.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (root) &#123;</span><br><span class="line">            result.push(root.val)</span><br><span class="line">            stack.push(root)</span><br><span class="line">            root = root.left</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> node = stack.pop()</span><br><span class="line">        root = node.right</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>中序</p>
+<blockquote>
+<p>递归版</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionMiddleorderTraversal</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (root) &#123;</span><br><span class="line">		recursionMiddleorderTraversal(root.left)</span><br><span class="line">		<span class="built_in">console</span>.log(root)</span><br><span class="line">		recursionMiddleorderTraversal(root.right)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>非递归版</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">middleOrderTraversel</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result = []</span><br><span class="line">    <span class="keyword">let</span> stack = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (root || stack.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (root) &#123;</span><br><span class="line">            stack.push(root)</span><br><span class="line">            root = root.left</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> node = stack.pop()</span><br><span class="line">        result.push(node.val)</span><br><span class="line">        root = node.right</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><p>后序</p>
+<blockquote>
+<p>递归版</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursionPostorderTraversal</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root) &#123;</span><br><span class="line">        recursionPreOrderTraversel(root.left)</span><br><span class="line">        recursionPreOrderTraversel(root.right)</span><br><span class="line">        <span class="built_in">console</span>.log(root)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>非递归版</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">postOrderTraversel</span>(<span class="params">root</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result = []</span><br><span class="line">    <span class="keyword">let</span> stack = []</span><br><span class="line">    <span class="keyword">let</span> lastVisit = root</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (root || stack.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (root) &#123;</span><br><span class="line">            stack.push(root)</span><br><span class="line">            root = root.left</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> node = stack[stack.length - <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!node.right || node.right === lastVisit) &#123;  <span class="comment">//回弹时，如果当前节点的有节点就是上一次的根节点，那么此节点也需要填入结果数组中</span></span><br><span class="line">            stack.pop()</span><br><span class="line">            result.push(node.val)</span><br><span class="line">            lastVisit = node</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            root = node.right</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h4 id="3-习题"><a href="#3-习题" class="headerlink" title="3. 习题"></a>3. 习题</h4><ol>
+<li>有如下节点</li>
+</ol>
+<p><img src="https://greency.github.io/images-site/youdaoyunbiji/37.png" alt="image"></p>
+<ol start="2">
+<li>结果如下<ol>
+<li>前序：F B A D C E G I H</li>
+<li>中序：A B C D E F G H I</li>
+<li>后序：A C E D B H I G F</li>
+</ol>
+</li>
+</ol>
+</div><script src="/js/jquery.min.js"></script><script src="/js/main.js"></script></body></html>

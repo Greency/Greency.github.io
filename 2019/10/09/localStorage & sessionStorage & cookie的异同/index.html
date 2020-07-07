@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=0.5"><link rel="stylesheet" href="/css/post.css"><link rel="icon" href="/img/favicon.png"><title>localStorage &amp; sessionStorage &amp; cookie的异同</title><meta name="generator" content="Hexo 4.2.1"></head><body>　　<div class="inner"><h2>localStorage &amp; sessionStorage &amp; cookie的异同</h2><h4 id="1-相同点"><a href="#1-相同点" class="headerlink" title="1.相同点"></a>1.相同点</h4><ol>
+<li>都遵循同源策略<blockquote>
+<p>即执行访问相同源下的storage</p>
+</blockquote>
+<h4 id="2-不同点"><a href="#2-不同点" class="headerlink" title="2.不同点"></a>2.不同点</h4></li>
+<li>localStorage储存的数据是永久的；但是sessionStorage的数据是临时的，一旦网页关闭，此数据将被自动清除。</li>
+</ol>
+<a id="more"></a>
+
+
+
+<blockquote>
+<p>==这里sessionStorage要详细说明一下：==</p>
+</blockquote>
+<p>① sessionStorage以tab为界限，就算用多个tab打开同一页面，那么这几个tab中的同一页面会生成不同的sessionStorage。</p>
+<blockquote>
+<p>举例说明：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">有如下页面: test.html</span><br><span class="line">在这个页面中，使用sessionStorage存储数据；</span><br><span class="line">并且在浏览器中打开两个tab：tab1, tab2，</span><br><span class="line">tab1和tab2都是运行的同一个页面，</span><br><span class="line">但是，这两个页面中的sessionStorage是独立的，互不影响。</span><br></pre></td></tr></table></figure>
+
+<p>② 只有浏览器或者网页被关闭时，当前页面的sessionStorage才会被清除，而页面的刷新/恢复/跳转并不会导致当前页面的sessionStorage被清除。</p>
+<blockquote>
+<p>举例说明：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">有两个页面：test1.html, test2.html,</span><br><span class="line">在test1.html中使用sessionStorage存了数据&quot;123&quot;</span><br><span class="line"></span><br><span class="line">1.第一种情况：刷新，</span><br><span class="line">那么点击浏览器的刷新按钮时，“123”的数据不会清除；</span><br><span class="line"></span><br><span class="line">2. 第二种情况：跳转（在同一个tab下）</span><br><span class="line">从test1跳转到test2,</span><br><span class="line">然后再从test2跳转到test1，</span><br><span class="line">“123”数据也不会被清除。</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>同源下的cookie可以被共享，并且cookie可手动设置过期时间。</li>
+</ol>
+<blockquote>
+<p>即相同源下的多个页面都可以对同一cookie进行操作。</p>
+</blockquote>
+</div><script src="/js/jquery.min.js"></script><script src="/js/main.js"></script></body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=0.5"><link rel="stylesheet" href="/css/post.css"><link rel="icon" href="/img/favicon.png"><title>BFC</title><meta name="generator" content="Hexo 4.2.1"></head><body>　　<div class="inner"><h2>BFC</h2><h1 id="块级格式化上下文（BFC）"><a href="#块级格式化上下文（BFC）" class="headerlink" title="块级格式化上下文（BFC）"></a>块级格式化上下文（BFC）</h1><p>参考博文:</p>
+<p><a href="https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/" target="_blank" rel="noopener">https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/</a></p>
+<p><a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html</a></p>
+<h3 id="1-格式化上下文（Formatting-context）"><a href="#1-格式化上下文（Formatting-context）" class="headerlink" title="1.格式化上下文（Formatting context）"></a>1.格式化上下文（Formatting context）</h3><p>​    格式化上下文是CSS2.1规范中的概念。它是页面中的一块独立的渲染区域，有着自己的渲染规则，决定其子元素的定位等，以及自身与其他元素之间的关系。</p>
+<p>​    CSS2.1中有两种格式化上下文：Block Formatting context (BFC) 和 inline Formatting context(IFC)。</p>
+<a id="more"></a>
+
+<h3 id="2-BFC的规则"><a href="#2-BFC的规则" class="headerlink" title="2.BFC的规则"></a>2.BFC的规则</h3><ul>
+<li>BFC    区域不会与浮动（float）元素重叠</li>
+<li>BFC在页面中是一个独立的容器，内部的子元素不会影响到外部的元素，返回如此</li>
+<li>BFC其下相邻的普通子元素（不是BFC元素）的margin会发生重叠</li>
+<li>计算BFC的高度时，其浮动元素也会参与计算。意思就是说：父元素为BFC时，其下如果是float的元素，父元素的高度不会塌陷，依然会被子元素的高度撑高。</li>
+</ul>
+<h3 id="3-如何才能生成BFC"><a href="#3-如何才能生成BFC" class="headerlink" title="3.如何才能生成BFC"></a>3.如何才能生成BFC</h3><ul>
+<li>根元素</li>
+<li>float不为none</li>
+<li>position: absolute / fixed</li>
+<li>display: inline-block / table-cell / table-caption / flex / inline-flex</li>
+<li>overflow不为visible</li>
+</ul>
+<h3 id="4-BFC有什么作用"><a href="#4-BFC有什么作用" class="headerlink" title="4.BFC有什么作用"></a>4.BFC有什么作用</h3><ul>
+<li>解决当子元素浮动元素时，父元素高度塌陷的问题</li>
+<li>解决相邻子元素margin重叠的问题</li>
+<li>实现自适应的多栏布局</li>
+</ul>
+<h3 id="5-如何实现自适应多栏布局"><a href="#5-如何实现自适应多栏布局" class="headerlink" title="5.如何实现自适应多栏布局"></a>5.如何实现自适应多栏布局</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.parent</span>&#123;</span></span><br><span class="line">     	display: table-cell;   </span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'parent'</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'child'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'parent'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'parent'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：.child必须设置display: block / inline-block，这时.child设置width属性才起作用。</p>
+</div><script src="/js/jquery.min.js"></script><script src="/js/main.js"></script></body></html>

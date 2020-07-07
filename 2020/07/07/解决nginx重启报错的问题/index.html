@@ -1,0 +1,10 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=0.5"><link rel="stylesheet" href="/css/post.css"><link rel="icon" href="/img/favicon.png"><title>解决nginx重启报错的问题</title><meta name="generator" content="Hexo 4.2.1"></head><body>　　<div class="inner"><h2>解决nginx重启报错的问题</h2><p>启动nginx出现这个错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx: [error] open() &quot;&#x2F;usr&#x2F;local&#x2F;var&#x2F;run&#x2F;nginx.pid&quot; failed (2: No such file or directory)</span><br></pre></td></tr></table></figure>
+
+<p>找到你的nginx.conf的文件夹目录，然后运行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -c &#x2F;usr&#x2F;local&#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
+<p>最后再运行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+
+</div><script src="/js/jquery.min.js"></script><script src="/js/main.js"></script></body></html>
