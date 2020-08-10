@@ -22,20 +22,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}}};
   </script>
 
-  <meta name="description" content="块级格式化上下文（BFC）参考博文: https:&#x2F;&#x2F;www.zhangxinxu.com&#x2F;wordpress&#x2F;2015&#x2F;02&#x2F;css-deep-understand-flow-bfc-column-two-auto-layout&#x2F; http:&#x2F;&#x2F;www.cnblogs.com&#x2F;lhb25&#x2F;p&#x2F;inside-block-formatting-ontext.html 1.格式化上下文（Formatt">
+  <meta name="description" content="最近遇到一个需求，需要通过SPA中的A页面打开外链的B页面，然后B页面再跳转到SPA中的C页面，并且C页面的状态更改会影响到B页面的改变。所以想到如下两种方案：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BFC">
-<meta property="og:url" content="http://yoursite.com/2018/10/16/BFC/index.html">
+<meta property="og:title" content="postMessage实战应用">
+<meta property="og:url" content="http://yoursite.com/2020/08/11/postMessage%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/index.html">
 <meta property="og:site_name" content="coderCy的日常总结">
-<meta property="og:description" content="块级格式化上下文（BFC）参考博文: https:&#x2F;&#x2F;www.zhangxinxu.com&#x2F;wordpress&#x2F;2015&#x2F;02&#x2F;css-deep-understand-flow-bfc-column-two-auto-layout&#x2F; http:&#x2F;&#x2F;www.cnblogs.com&#x2F;lhb25&#x2F;p&#x2F;inside-block-formatting-ontext.html 1.格式化上下文（Formatt">
+<meta property="og:description" content="最近遇到一个需求，需要通过SPA中的A页面打开外链的B页面，然后B页面再跳转到SPA中的C页面，并且C页面的状态更改会影响到B页面的改变。所以想到如下两种方案：">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2018-10-16T13:08:00.000Z">
-<meta property="article:modified_time" content="2020-07-03T07:21:50.939Z">
+<meta property="article:published_time" content="2020-08-10T22:57:00.000Z">
+<meta property="article:modified_time" content="2020-08-10T23:31:07.333Z">
 <meta property="article:author" content="coderCy">
-<meta property="article:tag" content="BFC">
+<meta property="article:tag" content="BOM">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2018/10/16/BFC/">
+<link rel="canonical" href="http://yoursite.com/2020/08/11/postMessage%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/">
 
 
 <script class="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>BFC | coderCy的日常总结</title>
+  <title>postMessage实战应用 | coderCy的日常总结</title>
   
 
 
@@ -149,7 +149,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#块级格式化上下文（BFC）"><span class="nav-number">1.</span> <span class="nav-text">块级格式化上下文（BFC）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-格式化上下文（Formatting-context）"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.格式化上下文（Formatting context）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-BFC的规则"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.BFC的规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-如何才能生成BFC"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.如何才能生成BFC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-BFC有什么作用"><span class="nav-number">1.0.4.</span> <span class="nav-text">4.BFC有什么作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-如何实现自适应多栏布局"><span class="nav-number">1.0.5.</span> <span class="nav-text">5.如何实现自适应多栏布局</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Location-href-打开外链的B页面"><span class="nav-number">1.</span> <span class="nav-text">1. Location.href 打开外链的B页面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-基于iframe打开第三方页面"><span class="nav-number">2.</span> <span class="nav-text">2. 基于iframe打开第三方页面</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-postMessage简介"><span class="nav-number">2.1.</span> <span class="nav-text">1. postMessage简介</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-使用方式"><span class="nav-number">2.2.</span> <span class="nav-text">2. 使用方式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-总结"><span class="nav-number">2.3.</span> <span class="nav-text">3. 总结</span></a></li></ol></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -209,7 +209,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/16/BFC/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/postMessage%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -222,7 +222,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          BFC
+          postMessage实战应用
         </h1>
 
         <div class="post-meta">
@@ -231,16 +231,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2018-10-16 21:08:00" itemprop="dateCreated datePublished" datetime="2018-10-16T21:08:00+08:00">2018-10-16</time>
+              <time title="Created: 2020-08-11 06:57:00 / Modified: 07:31:07" itemprop="dateCreated datePublished" datetime="2020-08-11T06:57:00+08:00">2020-08-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-03 15:21:50" itemprop="dateModified" datetime="2020-07-03T15:21:50+08:00">2020-07-03</time>
-              </span>
 
           
 
@@ -253,34 +247,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="块级格式化上下文（BFC）"><a href="#块级格式化上下文（BFC）" class="headerlink" title="块级格式化上下文（BFC）"></a>块级格式化上下文（BFC）</h1><p>参考博文:</p>
-<p><a href="https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/" target="_blank" rel="noopener">https://www.zhangxinxu.com/wordpress/2015/02/css-deep-understand-flow-bfc-column-two-auto-layout/</a></p>
-<p><a href="http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener">http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html</a></p>
-<h3 id="1-格式化上下文（Formatting-context）"><a href="#1-格式化上下文（Formatting-context）" class="headerlink" title="1.格式化上下文（Formatting context）"></a>1.格式化上下文（Formatting context）</h3><p>​    格式化上下文是CSS2.1规范中的概念。它是页面中的一块独立的渲染区域，有着自己的渲染规则，决定其子元素的定位等，以及自身与其他元素之间的关系。</p>
-<p>​    CSS2.1中有两种格式化上下文：Block Formatting context (BFC) 和 inline Formatting context(IFC)。</p>
+        <p>最近遇到一个需求，需要通过SPA中的A页面打开外链的B页面，然后B页面再跳转到SPA中的C页面，并且C页面的状态更改会影响到B页面的改变。所以想到如下两种方案：</p>
 <a id="more"></a>
 
-<h3 id="2-BFC的规则"><a href="#2-BFC的规则" class="headerlink" title="2.BFC的规则"></a>2.BFC的规则</h3><ul>
-<li>BFC    区域不会与浮动（float）元素重叠</li>
-<li>BFC在页面中是一个独立的容器，内部的子元素不会影响到外部的元素，返回如此</li>
-<li>BFC其下相邻的普通子元素（不是BFC元素）的margin会发生重叠</li>
-<li>计算BFC的高度时，其浮动元素也会参与计算。意思就是说：父元素为BFC时，其下如果是float的元素，父元素的高度不会塌陷，依然会被子元素的高度撑高。</li>
-</ul>
-<h3 id="3-如何才能生成BFC"><a href="#3-如何才能生成BFC" class="headerlink" title="3.如何才能生成BFC"></a>3.如何才能生成BFC</h3><ul>
-<li>根元素</li>
-<li>float不为none</li>
-<li>position: absolute / fixed</li>
-<li>display: inline-block / table-cell / table-caption / flex / inline-flex</li>
-<li>overflow不为visible</li>
-</ul>
-<h3 id="4-BFC有什么作用"><a href="#4-BFC有什么作用" class="headerlink" title="4.BFC有什么作用"></a>4.BFC有什么作用</h3><ul>
-<li>解决当子元素浮动元素时，父元素高度塌陷的问题</li>
-<li>解决相邻子元素margin重叠的问题</li>
-<li>实现自适应的多栏布局</li>
-</ul>
-<h3 id="5-如何实现自适应多栏布局"><a href="#5-如何实现自适应多栏布局" class="headerlink" title="5.如何实现自适应多栏布局"></a>5.如何实现自适应多栏布局</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.parent</span>&#123;</span></span><br><span class="line">     	display: table-cell;   </span><br><span class="line">    &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'parent'</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'child'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'parent'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">'parent'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-Location-href-打开外链的B页面"><a href="#1-Location-href-打开外链的B页面" class="headerlink" title="1. Location.href 打开外链的B页面"></a>1. Location.href 打开外链的B页面</h5><p>基于这种方案，通过href跳转到外链B页面，然后再跳转到C页面。我们发现在这个流程下，会导致两次状态的丢失，第一次是A页面通过location.href跳转到B页面，第二次是B页面跳转到C页面，这样会导致在SPA中，A页面与B页面的状态无法共享。当然也可以通过sessionStorage的方式来进行一些共享，但是成本太高，且会导致整个应用生命周期运行不流畅。</p>
+<h5 id="2-基于iframe打开第三方页面"><a href="#2-基于iframe打开第三方页面" class="headerlink" title="2. 基于iframe打开第三方页面"></a>2. 基于iframe打开第三方页面</h5><p>基于这种方案，我们可以解决第一种方案中出现的状态无法同步，应用生命周期不流畅等问题。但在此方案下，依然有一个问题，那就是如何让父窗口与iframe更好的进行通信，经过查找资料，发现postMessage非常的符合目前的场景。</p>
+<h6 id="1-postMessage简介"><a href="#1-postMessage简介" class="headerlink" title="1. postMessage简介"></a>1. postMessage简介</h6><p>postMessage是专门用于在不同域下的页面之间进行通信的一种方式。</p>
+<p>postMessage(message, targetOrigin, transfer)接受三个参数：</p>
+<ol>
+<li>message：要发送的数据</li>
+<li>targetOrigin：通过窗口的origin属性来指定哪些窗口能接收到消息事件，其值可以是字符串”*”（表示无限制）或者一个URI。在发送消息的时候，如果目标窗口的协议、主机地址或端口这三者的任意一项不匹配targetOrigin提供的值，那么消息就不会被发送；只有三者完全匹配，消息才会被发送。这个机制用来控制消息可以发送到哪些窗口。</li>
+<li>是一串和message 同时传递的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Transferable" target="_blank" rel="noopener"><code>Transferable</code></a> 对象. 这些对象的所有权将被转移给消息的接收方，而发送一方将不再保有所有权。</li>
+</ol>
+<h6 id="2-使用方式"><a href="#2-使用方式" class="headerlink" title="2. 使用方式"></a>2. 使用方式</h6><p>假如有两个页面，父页面是index.html，iframe是iframe.html。</p>
+<p>index.html代码如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="comment">// 监听由iframe提交的数据</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">'message'</span>, (e) =&gt; &#123;</span></span><br><span class="line"><span class="actionscript">  <span class="keyword">if</span> (e.orgin === <span class="string">''</span>) &#123;&#125;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">console</span>.log(e); <span class="comment">// &#123; data: &#123; age: 1 &#125;, origin: '*' &#125;</span></span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>注意：.child必须设置display: block / inline-block，这时.child设置width属性才起作用。</p>
+<p>Iframe.html代码如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="comment">// 向index.html提交数据</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.parent.postMessage(&#123;<span class="attr">age</span>: <span class="number">1</span>&#125;, <span class="string">'*'</span>);</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h6 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h6><p>我们知道，postMessage是用于跨域通信，所以它是全局的。如果你在postMessage的时候，没有指定orgin，那么任意一个开启了监听message事件的网站都会收到你所发送的消息。反之，你所监听的message事件，也会接收到其他域（orgin为“*”）发过来的数据。所以要注意以下两点：</p>
+<ol>
+<li>在postMessage的时候，最好指定origin，防止数据泄漏。</li>
+<li>在addEventListener的时候，最好对origin进行判断，不是自己信任的域名发送的数据，不要执行相应的操作。</li>
+</ol>
 
     </div>
 
@@ -290,7 +280,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/BFC/" rel="tag"># BFC</a>
+              <a href="/tags/BOM/" rel="tag"># BOM</a>
           </div>
 
         
@@ -299,13 +289,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2018/09/07/%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%AE%80%E8%B0%88/" rel="prev" title="原型链简谈">
-      <i class="fa fa-chevron-left"></i> 原型链简谈
+    <a href="/2020/07/24/%E4%BC%98%E9%9B%85%E7%9A%84%E9%80%82%E9%85%8Diphonex%E5%BA%95%E9%83%A8%E6%93%8D%E4%BD%9C%E6%A0%8F/" rel="prev" title="优雅的适配iphonex底部操作栏">
+      <i class="fa fa-chevron-left"></i> 优雅的适配iphonex底部操作栏
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/06/07/%E5%89%8D%EF%BC%8C%E4%B8%AD%EF%BC%8C%E5%90%8E%E5%BA%8F%EF%BC%88%E9%80%92%E5%BD%92&%E9%9D%9E%E9%80%92%E5%BD%92%E7%89%88%EF%BC%89/" rel="next" title="前，中，后序（递归&非递归版）">
-      前，中，后序（递归&非递归版） <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
