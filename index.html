@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-10-30 11:13:12" itemprop="dateModified" datetime="2020-10-30T11:13:12+08:00">2020-10-30</time>
+                <time title="Modified: 2020-11-02 09:21:25" itemprop="dateModified" datetime="2020-11-02T09:21:25+08:00">2020-11-02</time>
               </span>
 
           
@@ -253,42 +253,14 @@
 <p>学习如何使用这些支持性很好的CSS函数来控制元素的大小，维持合适的间距以及完成流体布局。</p>
 <p>随着响应式设计的发展以及变的越来越精细，CSS自身也在不断的发展并且提供给使用者更多控制权。所有的现代浏览器都支持<code>min()</code>，<code>max()</code>，<code>clamp()</code>这三个函数。它们是让网站和app更具动态和响应性的最新工具。</p>
 <p><code>min()</code>，<code>max()</code>，<code>clamp()</code> 可以使你的应用变的灵活以及流体排版，控制元素的改变，以及维持合适的间距。</p>
-<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p><code>min()</code>，<code>max()</code>，<code>clamp()</code> ，<code>calc()</code> 这几个数学函数允许使用加(+)，减(-)，乘(*)，除(/)四个数学表达式作为组件的值。</p>
-<p>Safari是第一个在2019年四月推出的完整功能，在同一年的晚些时候，79版的Chromium也推出了。今年，随着75版Firefox的发布，所有常用的浏览器都只支持了<code>min()</code>，<code>max()</code>，<code>clamp()</code>。</p>
-<h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p><a href="https://codepen.io/una/pen/rNeGNVL" target="_blank" rel="noopener">min()的Demo</a></p>
-<p>你可以把<code>min()</code>，<code>max()</code>，<code>clamp()</code>用在任何有意义的CSS表达式的右边。对于<code>min()</code>和<code>max()</code>，提供一列参数的值，浏览器决定一个最小或最大的值。例如，在这个例子中：<code>min(1rem, 50%, 10vw)</code>，浏览器对这三个值进行计算选出最小的，并将这个值作为元素要显示的真实值。</p>
-<p><a href="https://codepen.io/una/pen/RwaZXqR" target="_blank" rel="noopener">max()的Demo</a></p>
-<p><code>max(</code>)函数从给定的参数列表中选出最大的值。</p>
-<p><a href="https://codepen.io/una/pen/bGpoGdJ" target="_blank" rel="noopener">clamp()的Demo</a></p>
-<p><code>clamp()</code>接受三个值：最大值，理想值（需要计算），最大值。例子：<code>clamp(350px, 50%, 500px)</code></p>
-<p>这三个CSS函数可以接受如下任何属性的值：<code>&lt;length&gt;</code>，<code>&lt;frequency&gt;</code>，<code>&lt;angle&gt;</code>，<code>&lt;time&gt;</code>，<code>&lt;percentage&gt;</code>，<code>&lt;number&gt;</code>，<code>&lt;integer&gt;</code>。你可以这样写：<code>font-size: max(0.5vw, 50%, 2rem)</code>，结合<code>calc()</code>使用：<code>font-size: max(calc(0.5vw - 1em), 2rem)</code>    ，或者组合使用：<code>font-size: max(min(0.5vw, 1em), 2rem)</code></p>
-<blockquote>
-<p>在<code>max()</code>，<code>min()</code>，<code>clamp()</code>中使用<code>calc()</code>时，可以省略它。例如：<code>font-size: max(calc(0.5vw - 1em), 2rem)</code>和<code>font-size: max(0.5vw - 1em, 2rem)</code>是一样的。</p>
-</blockquote>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><ul>
-<li><code>min(&lt;value-list&gt;)</code>：从参数中选出最小的一个作为值。</li>
-<li><code>max(&lt;value-list&gt;)</code>：从参数中选出最大的一个作为值。</li>
-<li><code>clamp(&lt;min&gt;, &lt;ideal&gt;, &lt;max&gt;)</code>；在最小值和最大值范围内，就取中间的值。小于等于最小值，就取最小值；大于等于最大值，就取最大值。</li>
-</ul>
-<h4 id="完美宽度"><a href="#完美宽度" class="headerlink" title="完美宽度"></a>完美宽度</h4><p>根据Robert Bringhurst的文章<a href="http://webtypography.net/2.1.2#:~:text=%E2%80%9CAnything%20from%2045%20to%2075,is%2040%20to%2050%20characters.%E2%80%9D" target="_blank" rel="noopener">The Elements of Typographic Style</a>所说：“对于以文本大小为序列的单列页面，一行含有45到75个字符是最好的。”</p>
-<p>保证文字不会少于45或者不多于75，可以使用<code>clamp()</code>和<code>ch</code>（0-width <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length" target="_blank" rel="noopener">character advanc</a>）单位：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="built_in">clamp</span>(<span class="number">45ch</span>, <span class="number">50%</span>, <span class="number">75ch</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>浏览器会根据设置的值自动决定段落的宽度。当50%计算出的值小于45ch的时候，会取值45ch；当50%计算出的值大于75ch的时候，会取值75ch。</p>
-<p>你可以使用<code>min()</code>和<code>max()</code>来分解<code>clamp()</code>。如果你想某个元素的宽度总是50%，但是由不超过75ch。你可以这样写：<code>width: min(75ch, 50%);</code>。本质上是通过<code>min()</code>设置了一个”最大值“。</p>
-<p>同样的，你可以使用<code>max()</code>确保易读文字的最小值。像这样写：<code>width: max(45ch, 50%);</code>。浏览器会选择更大的一个，<code>45ch</code>或者<code>50%</code>，这意味着此元素至少有<code>45ch</code>。</p>
-<h4 id="内边距管理"><a href="#内边距管理" class="headerlink" title="内边距管理"></a>内边距管理</h4><p>接着上面的概念，<code>min()</code>可以设置一个‘max’的值，<code>max()</code>可以设置一个‘min’的值，你可以使用<code>max()</code>设置一个最小的内边距。有个来自<a href="https://css-tricks.com/using-max-for-an-inner-element-max-width/" target="_blank" rel="noopener">CSS Tricks</a>的例子，作者Caluã de Lacerda Pataca分享了他的想法：一个元素在大屏幕下有额外的padding，在小屏下有最小的padding。特别是在inline padding。使用如下方式可以达到这样的效果：使用<code>calc()</code>减去两边最小的padding：<code>calc((100vw - var(--contentWidth)) / 2)</code>，或者使用<code>max(2rem, 50vw - var(--contentWidth) / 2)</code>。总结起来就是这样：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">footer</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="built_in">var</span>(--blockPadding) <span class="built_in">max</span>(<span class="number">2rem</span>, <span class="number">50vw</span> - var(--contentWidth) / <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="流体排版"><a href="#流体排版" class="headerlink" title="流体排版"></a>流体排版</h4><p>为了实现<a href="https://www.smashingmagazine.com/2016/05/fluid-typography/" target="_blank" rel="noopener">fluid typography</a>，<a href="https://twitter.com/mikeriethmuller" target="_blank" rel="noopener">Mike Riethmeuller</a>普及了一种技术：使用<code>calc()</code>设置最小、最大的字体大小，并允许字体在最小与最大之间缩放。</p>
-<p>使用<code>clamp()</code>来写会更加清楚。不需要复杂的字符串，浏览器就可以很好的实现这种效果。设置一个最小可接受的字体大小（比如标题为1.5rem，最大为3rem）和<code>5vw</code>的理想值。</p>
-<p>现在，我们实现了一个跟随页面可视区域宽度缩放的排版，除非到达了限制的最小值和最大值。简洁的一行代码：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="built_in">clamp</span>(<span class="number">1.5rem</span>, <span class="number">5vw</span>, <span class="number">3rem</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>通过<code>max()</code>和<code>clamp()</code>限制最大文本值在1.4.4 Resize text (AA)下可能造成WCAG失败，这是因为用户可能无法将文字缩放到原始大小的200%。一定要测试好缩放的结果。</p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/27/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91min(),%20max(),%20and%20clamp()-%20three%20logical%20CSS%20functions%20to%20use%20today/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
