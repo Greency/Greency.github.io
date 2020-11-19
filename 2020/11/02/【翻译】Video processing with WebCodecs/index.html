@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}}};
+  </script>
+
+  <meta name="description" content="原文地址 现代web技术提供了许多方式去使用video。Media Stream API， Media Recording API， Media Source API和 WebRTC API提供了丰富的工具去录音，转换以及播放视频流。在解决某些高级任务时，这些API无法让web开发者处理视频流中的单个组件，例如帧和未混淆的已编码的视频或者音频块。为了访问底层组件，开发者一直使用WebAssembl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】Video processing with WebCodecs">
+<meta property="og:url" content="http://yoursite.com/2020/11/02/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Video%20processing%20with%20WebCodecs/index.html">
+<meta property="og:site_name" content="coderCy的日常总结">
+<meta property="og:description" content="原文地址 现代web技术提供了许多方式去使用video。Media Stream API， Media Recording API， Media Source API和 WebRTC API提供了丰富的工具去录音，转换以及播放视频流。在解决某些高级任务时，这些API无法让web开发者处理视频流中的单个组件，例如帧和未混淆的已编码的视频或者音频块。为了访问底层组件，开发者一直使用WebAssembl">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://greency.github.io/images-site/youdaoyunbiji/38.png">
+<meta property="og:image" content="https://greency.github.io/images-site/youdaoyunbiji/39.png">
+<meta property="og:image" content="https://greency.github.io/images-site/youdaoyunbiji/40.png">
+<meta property="article:published_time" content="2020-11-01T22:10:00.000Z">
+<meta property="article:modified_time" content="2020-11-19T03:08:56.633Z">
+<meta property="article:author" content="coderCy">
+<meta property="article:tag" content="Video">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://greency.github.io/images-site/youdaoyunbiji/38.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/11/02/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Video%20processing%20with%20WebCodecs/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>【翻译】Video processing with WebCodecs | coderCy的日常总结</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">coderCy的日常总结</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#当前状态"><span class="nav-number">1.</span> <span class="nav-text">当前状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视频处理流程"><span class="nav-number">2.</span> <span class="nav-text">视频处理流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebCodecs的操作"><span class="nav-number">3.</span> <span class="nav-text">WebCodecs的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#编码"><span class="nav-number">3.1.</span> <span class="nav-text">编码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解码"><span class="nav-number">3.2.</span> <span class="nav-text">解码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Demo"><span class="nav-number">3.3.</span> <span class="nav-text">Demo</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能检测"><span class="nav-number">4.</span> <span class="nav-text">功能检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用WebCodecs-API"><span class="nav-number">5.</span> <span class="nav-text">使用WebCodecs API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通过命令行开启"><span class="nav-number">5.1.</span> <span class="nav-text">通过命令行开启</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在实验阶段开启支持"><span class="nav-number">5.2.</span> <span class="nav-text">在实验阶段开启支持</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注册原始试用版"><span class="nav-number">6.</span> <span class="nav-text">注册原始试用版</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">coderCy</p>
+  <div class="site-description" itemprop="description">积极的态度，乐观的生活，加油呀，少年～</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Greency" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Greency" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Video%20processing%20with%20WebCodecs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="coderCy">
+      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="coderCy的日常总结">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【翻译】Video processing with WebCodecs
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-11-02 06:10:00" itemprop="dateCreated datePublished" datetime="2020-11-02T06:10:00+08:00">2020-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-11-19 11:08:56" itemprop="dateModified" datetime="2020-11-19T11:08:56+08:00">2020-11-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a href="https://web.dev/webcodecs/" target="_blank" rel="noopener">原文地址</a></p>
+<p>现代web技术提供了许多方式去使用video。<a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API" target="_blank" rel="noopener">Media Stream API</a>， <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API" target="_blank" rel="noopener">Media Recording API</a>， <a href="https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API" target="_blank" rel="noopener">Media Source API</a>和 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API" target="_blank" rel="noopener">WebRTC API</a>提供了丰富的工具去录音，转换以及播放视频流。在解决某些高级任务时，这些API无法让web开发者处理视频流中的单个组件，例如帧和未混淆的已编码的视频或者音频块。为了访问底层组件，开发者一直使用WebAssembly将<a href="https://en.wikipedia.org/wiki/Video_codec" target="_blank" rel="noopener">video and audio codecs</a>引入浏览器。但考虑到现代浏览器已经提供了各种编解码器（通常由硬件加速），将它们重新打包成WebAssembly似乎是人力和资源的浪费。</p>
+<a id="more"></a>
+
+<p><a href="https://wicg.github.io/web-codecs/" target="_blank" rel="noopener">WebCodecs API</a> 给开发者提供了使用浏览器已存在的媒体组件的方式，通过这种方式可以消除效率低的问题。特别是下面这几种：</p>
+<ul>
+<li>音视频解码器</li>
+<li>音视频编码器</li>
+<li>原始视频帧</li>
+<li>图像解码器</li>
+</ul>
+<p>对于需要完全控制媒体内容的Web应用，WebCodecs API 是非常有用的，它提供了处理诸如视频编辑器、视频会议、视频流等等能力。</p>
+<h4 id="当前状态"><a href="#当前状态" class="headerlink" title="当前状态"></a>当前状态</h4><table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Create explainer</td>
+<td>完成</td>
+</tr>
+<tr>
+<td>Create initial draft of specification</td>
+<td>完成</td>
+</tr>
+<tr>
+<td><strong>Gather feedback &amp; iterate on design</strong></td>
+<td>进行中</td>
+</tr>
+<tr>
+<td><strong>Origin trial</strong></td>
+<td>进行中</td>
+</tr>
+<tr>
+<td>Launch</td>
+<td>未开始</td>
+</tr>
+</tbody></table>
+<h4 id="视频处理流程"><a href="#视频处理流程" class="headerlink" title="视频处理流程"></a>视频处理流程</h4><p>帧是视频处理的核心。因此，在WebCodecs中，大多数类要么消费帧，要么生产帧。视频编码器将帧转换成已编码的块；视频解码器功能与之相反。Track Readers将视频磁道转换成一系列帧。根据设计，所有的转换都是异步的。Web API尝试通过将繁重的视频处理远离主线程来保持Web的响应性。</p>
+<p>在当前的WebCodecs中，在页面上显示帧的唯一方式是将它转换成<a href="https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap" target="_blank" rel="noopener"><code>ImageBitmap</code></a>，然后将bitmap绘制到canvas上，或者转换成<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLTexture" target="_blank" rel="noopener"><code>WebGLTexture</code></a>。</p>
+<h4 id="WebCodecs的操作"><a href="#WebCodecs的操作" class="headerlink" title="WebCodecs的操作"></a>WebCodecs的操作</h4><h5 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h5><p>从 <code>VideoFrame</code>开始。有两种方式可将已存在的图片转换成<code>VideoFrame</code>对象。</p>
+<p>第一种是直接从<a href="https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap" target="_blank" rel="noopener"><code>ImageBitmap</code></a>创建帧，调用 <code>VideoFrame()</code>构造函数，然后传递bitmap，以及时间戳。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cnv = <span class="built_in">document</span>.createElement(<span class="string">'canvas'</span>);</span><br><span class="line"><span class="comment">// draw something on the canvas</span></span><br><span class="line">…</span><br><span class="line"><span class="keyword">let</span> bitmap = <span class="keyword">await</span> createImageBitmap(cnv);</span><br><span class="line"><span class="keyword">let</span> frame_from_bitmap = <span class="keyword">new</span> VideoFrame(bitmap, &#123; <span class="attr">timestamp</span>: <span class="number">0</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://greency.github.io/images-site/youdaoyunbiji/38.png" alt="The path from `ImageBitmap` to the network or to storage."></p>
+<p>第二种是使用 <code>VideoTrackReader</code>创建一个函数，在 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamTrack" target="_blank" rel="noopener"><code>MediaStreamTrack</code></a>中每出现一个新的帧，这个函数都会被调用一次。当你需要从相机或者屏幕中捕获视频流时，这种方式很有用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> frames_from_stream = [];</span><br><span class="line"><span class="keyword">let</span> stream = <span class="keyword">await</span> navigator.mediaDevices.getUserMedia(&#123; … &#125;);</span><br><span class="line"><span class="keyword">let</span> vtr = <span class="keyword">new</span> VideoTrackReader(stream.getVideoTracks()[<span class="number">0</span>]);</span><br><span class="line">vtr.start(<span class="function">(<span class="params">frame</span>) =&gt;</span> &#123;</span><br><span class="line">  frames_from_stream.push(frame);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img src="https://greency.github.io/images-site/youdaoyunbiji/39.png" alt="The path from MediaStreamTrack to the network or to storage."></p>
+<p>无论采用何种方式，可以通过 <code>VideoEncoder</code>将帧编码成 <code>EncodedVideoChunk</code> 。</p>
+<p>在编码之前，<code>VideoEncoder</code>需要两个JavaScript对象：</p>
+<ul>
+<li>初始化的对象，含有有两个函数，一个处理编码块，一个是错误时的回调。这两个函数由开发者定义，且在传给 <code>VideoEncoder</code>的构造函数之后不可再更改。</li>
+<li>编码器的配置对象，包含了输出视频流的参数。在后面，你可以调用 <code>configure()</code>来改变这些参数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> init = &#123;</span><br><span class="line">  output: handleChunk,</span><br><span class="line">  error: <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e.message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> config = &#123;</span><br><span class="line">  codec: <span class="string">'vp8'</span>,</span><br><span class="line">  width: <span class="number">640</span>,</span><br><span class="line">  height: <span class="number">480</span>,</span><br><span class="line">  bitrate: <span class="number">8</span>_000_000,     <span class="comment">// 8 Mbps</span></span><br><span class="line">  framerate: <span class="number">30</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> encoder = <span class="keyword">new</span> VideoEncoder(init);</span><br><span class="line">encoder.configure(config);</span><br></pre></td></tr></table></figure>
+
+<p>编码器设置好之后，就可以接受帧了。当帧来自媒体流时， <code>VideoTrackReader.start()</code> 的回调会将帧注入到编码器中，然后定期的插入 <a href="https://en.wikipedia.org/wiki/Key_frame#Video_compression" target="_blank" rel="noopener">keyframes</a>，并且检查编码器是否被传入的帧淹没。 <code>configure()</code>和 <code>encode()</code> 会立即返回，无需等待真实的任务完成。它允许同一时间多个帧排队编码。但是这样导致报告错误变得困难。通过抛出异常或者调用 <code>error()</code> 回调，错误会立即被报告。有些错误很容易立即检测出来，而有些只能在编码的时候才看的出来。一旦编码成功，就使用一个新的编码块作为参数调用 <code>output()</code>的回调。另外一个重要的细节是<code>encode()</code>消费帧，如果后面需要该帧（例如，使用另外的编码器编码），那么它需要通过 <code>clone()</code>复制。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> frame_counter = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> pending_outputs = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> vtr = <span class="keyword">new</span> VideoTrackReader(stream.getVideoTracks()[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">vtr.start(<span class="function">(<span class="params">frame</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (pending_outputs &gt; <span class="number">30</span>) &#123;</span><br><span class="line">    <span class="comment">// Too many frames in flight, encoder is overwhelmed</span></span><br><span class="line">    <span class="comment">// let's drop this frame.</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  frame_counter++;</span><br><span class="line">  pending_outputs++;</span><br><span class="line">  <span class="keyword">const</span> insert_keyframe = (frame_counter % <span class="number">150</span>) == <span class="number">0</span>;</span><br><span class="line">  encoder.encode(frame, &#123; <span class="attr">keyFrame</span>: insert_keyframe &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>最后，写一个执行已编码的视频块的函数。通常来说，此函数通过网络传送数据块，或者 <a href="https://en.wikipedia.org/wiki/Multiplexing#Video_processing" target="_blank" rel="noopener">muxing </a>这些数据块到媒体容器中进行储存。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleChunk</span>(<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> data = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(chunk.data);  <span class="comment">// actual bytes of encoded data</span></span><br><span class="line">  <span class="keyword">let</span> timestamp = chunk.timestamp;        <span class="comment">// media time in microseconds</span></span><br><span class="line">  <span class="keyword">let</span> is_key = chunk.type == <span class="string">'key'</span>;       <span class="comment">// can also be 'delta'</span></span><br><span class="line">  pending_outputs--;</span><br><span class="line">  fetch(<span class="string">`/upload_chunk?timestamp=<span class="subst">$&#123;timestamp&#125;</span>&amp;type=<span class="subst">$&#123;chunk.type&#125;</span>`</span>,</span><br><span class="line">  &#123;</span><br><span class="line">    method: <span class="string">'POST'</span>,</span><br><span class="line">    headers: &#123; <span class="string">'Content-Type'</span>: <span class="string">'application/octet-stream'</span> &#125;,</span><br><span class="line">    body: data</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果在某个时候需要确定所有挂起的编码请求都已经完成，你可以调用 <code>flush()</code> ，然后等待它执行成功。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> encoder.flush();</span><br></pre></td></tr></table></figure>
+
+<h5 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h5><p> <code>VideoDecoder</code>的配置与 <code>VideoEncoder</code>是相似的：创建解码器的时候接受两个函数，并将编码解码器等参数传给 <code>configure()</code>。编码解码器的不同，编码解码的参数集也会变化。例如，对于H264，你需要使用AVCC extradata指定 <a href="https://wicg.github.io/web-codecs/#dom-audiodecoderconfig-description" target="_blank" rel="noopener">binary blob</a> 。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> init = &#123;</span><br><span class="line">  output: handleFrame,</span><br><span class="line">  error: <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e.message);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  codec: <span class="string">'vp8'</span>,</span><br><span class="line">  codedWidth: <span class="number">640</span>,</span><br><span class="line">  codedHeight: <span class="number">480</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> decoder = <span class="keyword">new</span> VideoDecoder(init);</span><br><span class="line">decoder.configure(config);</span><br></pre></td></tr></table></figure>
+
+<p>解码器初始化后，就可以向解码器传输 <code>EncodedVideoChunk</code> 对象。创建一个块只需要一个数据缓冲源（ <a href="https://developer.mozilla.org/en-US/docs/Web/API/BufferSource" target="_blank" rel="noopener"><code>BufferSource</code></a>）和一个以微秒为单位的帧时间戳。编码器提交的任何块都可以直接用于解码器，尽管这很难想象真实的例子—解码新的已编码的块（除了接下来的Demo）。上面讲的所有关于编码器方法的异步本质，对于解码器来说也是一样的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> responses = <span class="keyword">await</span> downloadVideoChunksFromServer(timestamp);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; responses.length; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> chunk = <span class="keyword">new</span> EncodedVideoChunk(&#123;</span><br><span class="line">    timestamp: responses[i].timestamp,</span><br><span class="line">    data: <span class="keyword">new</span> <span class="built_in">Uint8Array</span> ( responses[i].body )</span><br><span class="line">  &#125;);</span><br><span class="line">  decoder.decode(chunk);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">await</span> decoder.flush();</span><br></pre></td></tr></table></figure>
+<p><img src="https://greency.github.io/images-site/youdaoyunbiji/40.png" alt="The path from the network or storage to an ImageBitmap."></p>
+<p>现在来说说，一个新的已编码的帧是如何展示在页面上的。最好确保编码器的输出回调 (<code>handleFrame()</code>) 能立即返回。在下列的例子中，仅仅是在将要渲染的帧队列中添加了一个新的帧。渲染是分别进行的，又三个部分组成：</p>
+<ol>
+<li>将<code>VideoFrame</code>转换成 <a href="https://developer.mozilla.org/en-US/docs/Web/API/ImageBitmap" target="_blank" rel="noopener"><code>ImageBitmap</code></a>。</li>
+<li>等待合适的时间来显示帧。</li>
+<li>在cavas上绘制图片。</li>
+</ol>
+<p>当不需要这个帧的时候，应该在垃圾收集器收集它之前调用 <code>destroy()</code> 释放内存，这将减少Web应用使用的平均内存量。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cnv = <span class="built_in">document</span>.getElementById(<span class="string">'canvas_to_render'</span>);</span><br><span class="line"><span class="keyword">let</span> ctx = cnv.getContext(<span class="string">'2d'</span>, &#123; <span class="attr">alpha</span>: <span class="literal">false</span> &#125;);</span><br><span class="line"><span class="keyword">let</span> ready_frames = [];</span><br><span class="line"><span class="keyword">let</span> underflow = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">let</span> time_base = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleFrame</span>(<span class="params">frame</span>) </span>&#123;</span><br><span class="line">  ready_frames.push(frame);</span><br><span class="line">  <span class="keyword">if</span> (underflow)</span><br><span class="line">    setTimeout(render_frame, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delay</span>(<span class="params">time_ms</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(resolve, time_ms);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calculateTimeTillNextFrame</span>(<span class="params">timestamp</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (time_base == <span class="number">0</span>)</span><br><span class="line">    time_base = performance.now();</span><br><span class="line">  <span class="keyword">let</span> media_time = performance.now() - time_base;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.max(<span class="number">0</span>, (timestamp / <span class="number">1000</span>) - media_time);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">render_frame</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (ready_frames.length == <span class="number">0</span>) &#123;</span><br><span class="line">    underflow = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> frame = ready_frames.shift();</span><br><span class="line">  underflow = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> bitmap = <span class="keyword">await</span> frame.createImageBitmap();</span><br><span class="line">  <span class="comment">// Based on the frame's timestamp calculate how much of real time waiting</span></span><br><span class="line">  <span class="comment">// is needed before showing the next frame.</span></span><br><span class="line">  <span class="keyword">let</span> time_till_next_frame = calculateTimeTillNextFrame(frame.timestamp);</span><br><span class="line">  <span class="keyword">await</span> delay(time_till_next_frame);</span><br><span class="line">  ctx.drawImage(bitmap, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Immediately schedule rendering of the next frame</span></span><br><span class="line">  setTimeout(render_frame, <span class="number">0</span>);</span><br><span class="line">  frame.destroy();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h5><p>下面的Demo展示了两个canvas，第一个是动画的速率与你的显示器一致，第二个是通过 <code>VideoTrackReader</code> 以30FPS展示的一系列帧，通过使用WebCodecs API来编码和解码。</p>
+<p><a href="https://glitch.com/~webcodecs-blogpost-demo" target="_blank" rel="noopener">Demo链接</a></p>
+<h4 id="功能检测"><a href="#功能检测" class="headerlink" title="功能检测"></a>功能检测</h4><p>用如下方式检测WebCodecs是否支持：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="string">'VideoEncoder'</span> <span class="keyword">in</span> <span class="built_in">window</span>) &#123;</span><br><span class="line">  <span class="comment">// WebCodecs API is supported.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用WebCodecs-API"><a href="#使用WebCodecs-API" class="headerlink" title="使用WebCodecs API"></a>使用WebCodecs API</h4><h5 id="通过命令行开启"><a href="#通过命令行开启" class="headerlink" title="通过命令行开启"></a>通过命令行开启</h5><p>要在所有平台的本地上实验WebCodecs API，不用使用origin trial token，用命令行启动chrome即可：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--enable-blink-features=WebCodecs</span><br></pre></td></tr></table></figure>
+
+<h5 id="在实验阶段开启支持"><a href="#在实验阶段开启支持" class="headerlink" title="在实验阶段开启支持"></a>在实验阶段开启支持</h5><p>在Chrome 86的原始试用版中，WebCodecs API在所有桌面平台（Chrome OS、Linux、macOS和Windows）都可用。原始试用版计划是在2021年二月Chrome 88进入稳定版之前结束。</p>
+<p>原始试用版可以让你尝试新的功能，并将这些功能的可用性，实用性和效益反馈给Web标准社区。更多的信息请看<a href="https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/developer-guide.md" target="_blank" rel="noopener">Origin Trials Guide for Web Developers</a>。注册这个或者其他的原始试用版，请看<a href="https://developers.chrome.com/origintrials/#/trials/active" target="_blank" rel="noopener">registration page</a>。</p>
+<h4 id="注册原始试用版"><a href="#注册原始试用版" class="headerlink" title="注册原始试用版"></a>注册原始试用版</h4><ol>
+<li><a href="https://developers.chrome.com/origintrials/#/view_trial/-7811493553674125311" target="_blank" rel="noopener">申请Token</a></li>
+<li>将Token添加到页面中。有两种方式；<ul>
+<li>在每个页面的头部添加 <code>origin-trial</code> 的<code>&lt;meta&gt;</code> 。例如，像这样做：<code>&lt;meta http-equiv=&quot;origin-trial&quot; content=&quot;TOKEN_GOES_HERE&quot;&gt;</code></li>
+<li>如果你可以配置服务端，也可以将Token添加到 <code>Origin-Trial</code>的HTTP头中。响应头的值像这样：<code>Origin-Trial: TOKEN_GOES_HERE</code></li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Video/" rel="tag"># Video</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/27/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91min(),%20max(),%20and%20clamp()-%20three%20logical%20CSS%20functions%20to%20use%20today/" rel="prev" title="【翻译】min(), max(), and clamp()- three logical CSS functions to use today">
+      <i class="fa fa-chevron-left"></i> 【翻译】min(), max(), and clamp()- three logical CSS functions to use today
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/19/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91%E6%B5%8F%E8%A7%88%E5%99%A8%E5%89%8D%E8%BF%9B:%E5%90%8E%E9%80%80%E7%9A%84%E7%BC%93%E5%AD%98/" rel="next" title="【翻译】浏览器前进:后退的缓存">
+      【翻译】浏览器前进:后退的缓存 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">coderCy</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
