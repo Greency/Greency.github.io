@@ -22,30 +22,33 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}}};
   </script>
 
-  <meta name="description" content="积极的态度，乐观的生活，加油呀，少年～">
-<meta property="og:type" content="website">
-<meta property="og:title" content="coderCy的日常总结">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="原文地址 通过开启modern JavaScript依赖和输出来提升性能。 超过90%的浏览器都支持modern JavaScript，但是legacy JavaScript的流行仍然是当今web性能问题的最大原因之一。 EStimator.dev是一个web小工具，它可以计算网站使用modern JavaScript语法后的体积大小，以及性能对比之前有多大提升。 当今的web受到legacy J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】发布、安装现代JavaScript使应用更快速">
+<meta property="og:url" content="http://yoursite.com/2020/12/24/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91%E5%8F%91%E5%B8%83%E3%80%81%E5%AE%89%E8%A3%85%E7%8E%B0%E4%BB%A3JavaScript%E4%BD%BF%E5%BA%94%E7%94%A8%E6%9B%B4%E5%BF%AB%E9%80%9F/index.html">
 <meta property="og:site_name" content="coderCy的日常总结">
-<meta property="og:description" content="积极的态度，乐观的生活，加油呀，少年～">
+<meta property="og:description" content="原文地址 通过开启modern JavaScript依赖和输出来提升性能。 超过90%的浏览器都支持modern JavaScript，但是legacy JavaScript的流行仍然是当今web性能问题的最大原因之一。 EStimator.dev是一个web小工具，它可以计算网站使用modern JavaScript语法后的体积大小，以及性能对比之前有多大提升。 当今的web受到legacy J">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-12-23T22:10:00.000Z">
+<meta property="article:modified_time" content="2021-01-12T02:19:40.975Z">
 <meta property="article:author" content="coderCy">
+<meta property="article:tag" content="Performance">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/12/24/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91%E5%8F%91%E5%B8%83%E3%80%81%E5%AE%89%E8%A3%85%E7%8E%B0%E4%BB%A3JavaScript%E4%BD%BF%E5%BA%94%E7%94%A8%E6%9B%B4%E5%BF%AB%E9%80%9F/">
 
 
 <script class="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>coderCy的日常总结</title>
+  <title>【翻译】发布、安装现代JavaScript使应用更快速 | coderCy的日常总结</title>
   
 
 
@@ -134,7 +137,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -146,6 +149,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Modern-JavaScript"><span class="nav-number">1.</span> <span class="nav-text">Modern JavaScript</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Legacy-JavaScript"><span class="nav-number">2.</span> <span class="nav-text">Legacy JavaScript</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Modern-JavaScript-on-npm"><span class="nav-number">3.</span> <span class="nav-text">Modern JavaScript on npm</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Modern-only"><span class="nav-number">3.1.</span> <span class="nav-text">Modern-only</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Modern-with-legacy-fallback"><span class="nav-number">3.2.</span> <span class="nav-text">Modern with legacy fallback</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Modern-with-legacy-fallback-and-ESM-bundler-optimizations"><span class="nav-number">3.3.</span> <span class="nav-text">Modern with legacy fallback and ESM bundler optimizations</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Modern-JavaScript-in-applications"><span class="nav-number">4.</span> <span class="nav-text">Modern JavaScript in applications</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack"><span class="nav-number">5.</span> <span class="nav-text">webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Optimize-Plugin"><span class="nav-number">5.1.</span> <span class="nav-text">Optimize Plugin</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BabelEsmPlugin"><span class="nav-number">5.2.</span> <span class="nav-text">BabelEsmPlugin</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Configure-babel-loader-to-transpile-node-modules"><span class="nav-number">5.3.</span> <span class="nav-text">Configure babel-loader to transpile node_modules</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rollup"><span class="nav-number">6.</span> <span class="nav-text">Rollup</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#rollup-plugin-babel"><span class="nav-number">6.1.</span> <span class="nav-text">@rollup&#x2F;plugin-babel</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#额外的打包工具"><span class="nav-number">6.2.</span> <span class="nav-text">额外的打包工具</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结尾"><span class="nav-number">7.</span> <span class="nav-text">结尾</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -198,9 +202,10 @@
       <div class="main-inner">
         
 
-        <div class="content index posts-expand">
+        <div class="content post posts-expand">
           
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -216,10 +221,9 @@
       <meta itemprop="name" content="coderCy的日常总结">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/12/24/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91%E5%8F%91%E5%B8%83%E3%80%81%E5%AE%89%E8%A3%85%E7%8E%B0%E4%BB%A3JavaScript%E4%BD%BF%E5%BA%94%E7%94%A8%E6%9B%B4%E5%BF%AB%E9%80%9F/" class="post-title-link" itemprop="url">【翻译】发布、安装现代JavaScript使应用更快速</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          【翻译】发布、安装现代JavaScript使应用更快速
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -249,7 +253,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a href="https://web.dev/publish-modern-javascript/" target="_blank" rel="noopener">原文地址</a></p>
+        <p><a href="https://web.dev/publish-modern-javascript/" target="_blank" rel="noopener">原文地址</a></p>
 <p>通过开启modern JavaScript依赖和输出来提升性能。</p>
 <p>超过90%的浏览器都支持modern JavaScript，但是legacy JavaScript的流行仍然是当今web性能问题的最大原因之一。</p>
 <p><a href="http://estimator.dev/" target="_blank" rel="noopener">EStimator.dev</a>是一个web小工具，它可以计算网站使用modern JavaScript语法后的体积大小，以及性能对比之前有多大提升。</p>
@@ -321,670 +325,34 @@
 <h5 id="额外的打包工具"><a href="#额外的打包工具" class="headerlink" title="额外的打包工具"></a>额外的打包工具</h5><p>Rollup和webpack是高度可配置的，这意味着每个项目必须要更新它的配置来开启依赖中的现代JavaScript语法。也有更高水平的打包工具，它们倾向于约定大于配置，比如： <a href="https://parceljs.org/" target="_blank" rel="noopener">Parcel</a>，<a href="https://www.snowpack.dev/" target="_blank" rel="noopener">Snowpack</a>，<a href="https://github.com/vitejs/vite" target="_blank" rel="noopener">Vite</a>和 <a href="https://github.com/preactjs/wmr" target="_blank" rel="noopener">WMR</a>。这些工具的大多数假设npm依赖包含现代语法，并且在打包时会被编译成适当的语法。</p>
 <h4 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h4><p><a href="http://estimator.dev/" target="_blank" rel="noopener">EStimator.dev</a>提供了更简单的方式来评估网站切换到现代JavaScript语法后，能对你的大部分用户产生多大的影响。当今，ES2017是最接近现代语法的版本，诸如像npm，Babel，webpack和Rollup这些工具已经可以配置你的打包系统，并用ES2017的语法来编写你的包。这篇文章涵盖了几种方法，你应该用最适合你项目的最简单配置。</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/Performance/" rel="tag"># Performance</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/13/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%915%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9ACSS%E5%8F%98%E9%87%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/13/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%915%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9ACSS%E5%8F%98%E9%87%8F/" class="post-title-link" itemprop="url">【翻译】5分钟学会CSS变量</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-13 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-13T00:00:00+08:00">2020-11-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-16 09:19:58" itemprop="dateModified" datetime="2020-11-16T09:19:58+08:00">2020-11-16</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://www.freecodecamp.org/news/learn-css-variables-in-5-minutes-80cf63b4025d/" target="_blank" rel="noopener">原文地址</a></p>
-<p>​        CSS自定义属性（也可以叫做变量）对于前端开发者来说是非常好的功能。它为CSS带来了使用变量的能力，从而使CSS更加简洁，可读性和灵活性更高。</p>
-<p>​        另外，与CSS预处理器的变量不同，CSS变量实际上是DOM的一部分，这有许多的益处。因此，CSS变量更像是steroids上的SASS和LESS变量。在本文中，我会带给给你们这个新技术如何工作的速成课程。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/13/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%915%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9ACSS%E5%8F%98%E9%87%8F/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/02/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Video%20processing%20with%20WebCodecs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/02/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Video%20processing%20with%20WebCodecs/" class="post-title-link" itemprop="url">【翻译】Video processing with WebCodecs</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-11-02 06:10:00" itemprop="dateCreated datePublished" datetime="2020-11-02T06:10:00+08:00">2020-11-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-19 11:08:56" itemprop="dateModified" datetime="2020-11-19T11:08:56+08:00">2020-11-19</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://web.dev/webcodecs/" target="_blank" rel="noopener">原文地址</a></p>
-<p>现代web技术提供了许多方式去使用video。<a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API" target="_blank" rel="noopener">Media Stream API</a>， <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API" target="_blank" rel="noopener">Media Recording API</a>， <a href="https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API" target="_blank" rel="noopener">Media Source API</a>和 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API" target="_blank" rel="noopener">WebRTC API</a>提供了丰富的工具去录音，转换以及播放视频流。在解决某些高级任务时，这些API无法让web开发者处理视频流中的单个组件，例如帧和未混淆的已编码的视频或者音频块。为了访问底层组件，开发者一直使用WebAssembly将<a href="https://en.wikipedia.org/wiki/Video_codec" target="_blank" rel="noopener">video and audio codecs</a>引入浏览器。但考虑到现代浏览器已经提供了各种编解码器（通常由硬件加速），将它们重新打包成WebAssembly似乎是人力和资源的浪费。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/11/02/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91Video%20processing%20with%20WebCodecs/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/13/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%915%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9ACSS%E5%8F%98%E9%87%8F/" rel="prev" title="【翻译】5分钟学会CSS变量">
+      <i class="fa fa-chevron-left"></i> 【翻译】5分钟学会CSS变量
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
   
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/27/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91min(),%20max(),%20and%20clamp()-%20three%20logical%20CSS%20functions%20to%20use%20today/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/27/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91min(),%20max(),%20and%20clamp()-%20three%20logical%20CSS%20functions%20to%20use%20today/" class="post-title-link" itemprop="url">【翻译】min(), max(), and clamp()- three logical CSS functions to use today</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-10-27 06:00:00" itemprop="dateCreated datePublished" datetime="2020-10-27T06:00:00+08:00">2020-10-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-02 09:21:25" itemprop="dateModified" datetime="2020-11-02T09:21:25+08:00">2020-11-02</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://web.dev/min-max-clamp/" target="_blank" rel="noopener">原文地址</a></p>
-<p>学习如何使用这些支持性很好的CSS函数来控制元素的大小，维持合适的间距以及完成流体布局。</p>
-<p>随着响应式设计的发展以及变的越来越精细，CSS自身也在不断的发展并且提供给使用者更多控制权。所有的现代浏览器都支持<code>min()</code>，<code>max()</code>，<code>clamp()</code>这三个函数。它们是让网站和app更具动态和响应性的最新工具。</p>
-<p><code>min()</code>，<code>max()</code>，<code>clamp()</code> 可以使你的应用变的灵活以及流体排版，控制元素的改变，以及维持合适的间距。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/27/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91min(),%20max(),%20and%20clamp()-%20three%20logical%20CSS%20functions%20to%20use%20today/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/postMessage%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/11/postMessage%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">postMessage实战应用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-08-11 06:57:00 / Modified: 07:31:07" itemprop="dateCreated datePublished" datetime="2020-08-11T06:57:00+08:00">2020-08-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近遇到一个需求，需要通过SPA中的A页面打开外链的B页面，然后B页面再跳转到SPA中的C页面，并且C页面的状态更改会影响到B页面的改变。所以想到如下两种方案：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/11/postMessage%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/24/%E4%BC%98%E9%9B%85%E7%9A%84%E9%80%82%E9%85%8Diphonex%E5%BA%95%E9%83%A8%E6%93%8D%E4%BD%9C%E6%A0%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/24/%E4%BC%98%E9%9B%85%E7%9A%84%E9%80%82%E9%85%8Diphonex%E5%BA%95%E9%83%A8%E6%93%8D%E4%BD%9C%E6%A0%8F/" class="post-title-link" itemprop="url">优雅的适配iphonex底部操作栏</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-24 15:05:00 / Modified: 17:03:02" itemprop="dateCreated datePublished" datetime="2020-07-24T15:05:00+08:00">2020-07-24</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>iphonex没有了实体键，屏幕底部新增了小黑条用于用户操作。那么从功能上来说，在小黑条的这部分区域就不应该有与用户交互的功能存在，但是很多时候页面底部会固定一些诸如tabbar等其他需要交互的区域，这时候不得不给这部分区域增加padding-bottom。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/24/%E4%BC%98%E9%9B%85%E7%9A%84%E9%80%82%E9%85%8Diphonex%E5%BA%95%E9%83%A8%E6%93%8D%E4%BD%9C%E6%A0%8F/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/07/%E8%A7%A3%E5%86%B3nginx%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/07/%E8%A7%A3%E5%86%B3nginx%E9%87%8D%E5%90%AF%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">解决nginx重启报错的问题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-07 21:24:00 / Modified: 21:27:42" itemprop="dateCreated datePublished" datetime="2020-07-07T21:24:00+08:00">2020-07-07</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>启动nginx出现这个错误：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx: [error] open() &quot;&#x2F;usr&#x2F;local&#x2F;var&#x2F;run&#x2F;nginx.pid&quot; failed (2: No such file or directory)</span><br></pre></td></tr></table></figure>
-
-<p>找到你的nginx.conf的文件夹目录，然后运行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -c &#x2F;usr&#x2F;local&#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
-
-<p>最后再运行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/29/generator%E5%AE%9E%E7%8E%B0%EF%BC%88async&await%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/29/generator%E5%AE%9E%E7%8E%B0%EF%BC%88async&await%EF%BC%89/" class="post-title-link" itemprop="url">generator实现（async&await）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-29 20:24:00" itemprop="dateCreated datePublished" datetime="2020-06-29T20:24:00+08:00">2020-06-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-03 15:21:50" itemprop="dateModified" datetime="2020-07-03T15:21:50+08:00">2020-07-03</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-async-amp-await"><a href="#1-async-amp-await" class="headerlink" title="1. async&amp;await"></a>1. async&amp;await</h4><h5 id="1-特点"><a href="#1-特点" class="headerlink" title="1. 特点"></a>1. 特点</h5><ol>
-<li>让异步代码的执行按照同步的方式执行</li>
-<li>await后面只能接Promise</li>
-<li>async返回的是一个Promise</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/29/generator%E5%AE%9E%E7%8E%B0%EF%BC%88async&await%EF%BC%89/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/%E6%80%BB%E7%BB%93%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%88Vue%E7%89%88%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/26/%E6%80%BB%E7%BB%93%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%88Vue%E7%89%88%EF%BC%89/" class="post-title-link" itemprop="url">总结组件通信的五种方式（Vue版）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-26 09:15:00" itemprop="dateCreated datePublished" datetime="2020-06-26T09:15:00+08:00">2020-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-03 15:21:50" itemprop="dateModified" datetime="2020-07-03T15:21:50+08:00">2020-07-03</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-props-amp-amp-v-on-emit"><a href="#1-props-amp-amp-v-on-emit" class="headerlink" title="1. props &amp;&amp; v-on/$emit"></a>1. props &amp;&amp; v-on/$emit</h4><p>父组件通过props向子组件传递数据；父组件通过使用v-on监听事件，子组件即可通过$emit触发对应事件向父组件传递事件。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/26/%E6%80%BB%E7%BB%93%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1%E7%9A%84%E4%BA%94%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%88Vue%E7%89%88%EF%BC%89/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/07/%E5%A6%82%E4%BD%95%E4%B8%93%E6%B3%A8%E7%9A%84%E5%81%9A%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="coderCy">
-      <meta itemprop="description" content="积极的态度，乐观的生活，加油呀，少年～">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="coderCy的日常总结">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/07/%E5%A6%82%E4%BD%95%E4%B8%93%E6%B3%A8%E7%9A%84%E5%81%9A%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85/" class="post-title-link" itemprop="url">如何专注的做一件事情</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-07 12:10:00" itemprop="dateCreated datePublished" datetime="2020-06-07T12:10:00+08:00">2020-06-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-03 15:21:50" itemprop="dateModified" datetime="2020-07-03T15:21:50+08:00">2020-07-03</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="1-每天选出一个焦点事件"><a href="#1-每天选出一个焦点事件" class="headerlink" title="1. 每天选出一个焦点事件"></a>1. 每天选出一个焦点事件</h4><h5 id="1-符合“焦点事件”的三个标准"><a href="#1-符合“焦点事件”的三个标准" class="headerlink" title="1. 符合“焦点事件”的三个标准"></a>1. 符合“焦点事件”的三个标准</h5><ol>
-<li>急迫感</li>
-<li>满足感</li>
-<li>乐趣</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/06/07/%E5%A6%82%E4%BD%95%E4%B8%93%E6%B3%A8%E7%9A%84%E5%81%9A%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
 
 
 
